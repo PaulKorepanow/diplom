@@ -1,0 +1,33 @@
+\documentclass[14pt,a4paper,russian]{extreport}
+\usepackage[utf8]{inputenc}
+\usepackage[russian]{babel}
+\include{preamble.inc}
+\include{listings.inc}
+\include{macros.inc}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Задать заголовок документа, автора и дату %
+% первый аргумент - заголовок, второй автора, трейти дата%
+\SetTextInfo{Template}{Vlasov}{07.09.2019}
+\SetTextStatus{Готов}
+
+\begin{document}
+
+\title{Диплом}
+
+\maketitle
+
+\tableofcontents %Создание оглавления
+\include{20-diplom} %Сам диплом	
+	\PrintTextInfo
+	
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% НАЧАЛО ТЕКСТА	
+	% Тут можно начинать писать текст.
+
+	\include{10-examples} % Начинается с новой страницы, так как содержит Главу (Chapter).
+% КОНЕЦ ТЕКСТА
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\include{81-biblio}
+
+\end{document}

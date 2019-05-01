@@ -1,0 +1,129 @@
+\chapter{Глава}
+\label{cha:chapter}
+
+\todo[inline, color=red]{так выглядит заметка в тексте}
+\section{Новый раздел}
+
+\subsection{Оформление текста}
+Пустая строка
+
+- это новый абзац\\%\\ - интервал между строками
+
+\textbf{Жирный}
+
+\textit{Курсив}
+
+\sout{Зачерктунтый}
+
+\textcolor{red}{Красный}\\
+
+Перечисление без нумерации
+\begin{itemize}
+	\item Первый
+	\begin{itemize}
+		\item 1-1
+		\item 1-2
+	\end{itemize}
+	\item Второй\\
+\end{itemize}
+
+Перечисление с нумерацией
+
+\begin{enumerate}
+	\item Первый
+	\item Второй\\
+\end{enumerate}
+
+Ссылка на литературу\todo[color=green]{Заметка на полях} \cite{Pup09}.
+
+\subsection{Таблица}
+
+
+\begin{table}[h]
+	\caption{\label{tab:canonsummary}Измерительные характеристики цифровой камеры Canon EOS 400D.} %Заголовок
+	\begin{center}%по центру
+		\begin{tabular}{|c|c|} % два столбца с границами и выравниванием по центру
+			\hline % горизонтальная граница
+			% Первая строка, "&" - hfpltkbntkm cnjk.wjd
+			Параметр 		& 		Значение \\
+			\hline
+			Разрешение		 & $3888 \times 2592$ \\
+			Размер сенсора	 & $22.2 \times 14.8$ мм \\
+			АЦП & 12~bit\\
+			\hline
+			\multicolumn{2}{|c|}{Результаты измерений} \\ % Объединяем столбцы с выравниванием по центру
+			\hline
+			Темновое смещение (BLO) & 256 \\
+			Максимальный линейный сигнал & 3070~DN \\
+			Значение насыщения & 3470~DN \\
+			\hline
+		\end{tabular}
+	\end{center}
+\end{table}
+
+
+\subsection{Формулы}
+Формула или математическое выражение в тексте $a=b$
+
+Формула или математическое выражение
+$$
+a=b+c
+$$
+с отдельной строки.\\
+
+Горизонтальный $b\: a$ пробел
+
+Толстый горизонтальный $c\;e$ пробел
+
+Индексы $a_b^c$
+
+Нумерованные формулы
+\begin{eqnarray}
+\label{eq:a}%ссылка на формулу
+a=b+c
+\end{eqnarray}
+
+Так ссылаться на формулу, рисунок или таблицу в тексте (\ref{eq:a})
+
+Формула в несколько строк
+\begin{eqnarray*}
+\label{new_formula}
+&a=b,\\
+&c=e
+\end{eqnarray*}
+
+$$
+\alpha,  \theta, \upsilon, \beta, \vartheta, \pi, \phi, \gamma, \iota, \varpi, \varphi,
+, \delta , \kappa , \rho , \chi
+, \epsilon , \lambda , \varrho , \psi
+, \varepsilon , \mu , \sigma , \omega
+, \zeta , \nu , \varsigma
+, \eta, \xi , \tau
+$$
+
+\subsection{Рисунки}
+\begin{figure}[H]
+	\center{\includegraphics[width=1\linewidth]{fig/fig.jpeg}}
+	\caption{Зависимость сигнала от шума для данных.}
+	\label{ris:image}
+\end{figure}
+
+Сылка на рисунок \ref{ris:image}.
+
+
+\begin{lstlisting}[style=pseudocode,caption={Алгоритм оценки дипломных работ}]
+def EvaluateDiplomas():
+	for each student in Masters:
+		student.Mark := 5
+	for each student in Engineers:
+		if Good(student):
+			student.Mark := 5
+		else:
+			student.Mark := 4
+\end{lstlisting}
+
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: "rpz"
+%%% End:

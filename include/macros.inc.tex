@@ -1,0 +1,18 @@
+% Любимые команды
+\newcommand{\Code}[1]{\textbf{#1}}
+
+\newcommand{\SetTextInfo}[3]{
+	\newcommand{\TextHeadline}{#1}
+	\newcommand{\TextAutor}{#2}
+	\newcommand{\TextDate}{#3}
+}
+
+\newcommand{\SetTextStatus}[1]{
+	\newcommand{\TextStatus}{{#1}}
+}
+
+\newcommand{\PrintTextInfo}{
+	\epigraph{\textbf{\TextHeadline} \\ \TextStatus}{Автор: \TextAutor\\ Дата: \TextDate}
+}
+
+
