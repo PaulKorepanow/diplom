@@ -1,2 +1,3 @@
 *.gz
 *.png
+.vscode/settings.json
