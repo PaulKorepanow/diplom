@@ -1,13 +1,17 @@
+\sloppy
+
+% Настройки стиля ГОСТ 7-32
+% Для начала определяем, хотим мы или нет, чтобы рисунки и таблицы нумеровались в пределах раздела, или нам нужна сквозная нумерация.
+\EqInChapter{}% формулы будут нумероваться в пределах раздела
+\TableInChapter{}% таблицы будут нумероваться в пределах раздела
+\PicInChapter{}% рисунки будут нумероваться в пределах раздела
+
+\usepackage{pscyr} 
 \usepackage{float}
 \usepackage{ulem}
 \usepackage{xcolor}
-\usepackage{epigraph}
-\usepackage{cmap} % для кодировки шрифтов в pdf
-\usepackage[T2A]{fontenc}
-\usepackage{pscyr}
-\usepackage{indentfirst} % отделять первую строку раздела абзацным отступом тоже
-\usepackage[textwidth=100, textsize=footnotesize]{todonotes}
-
+\usepackage[textwidth=70, textsize=footnotesize]{todonotes}
+\reversemarginpar{}
 
 % Добавляем гипертекстовое оглавление в PDF
 \usepackage[
@@ -16,21 +20,29 @@ urlcolor=black,linkcolor=black, anchorcolor=black,
 citecolor=black, menucolor=black, filecolor=black,
 ]{hyperref}
 
+\AfterHyperrefFix{}
+
+\usepackage{microtype}% полезный пакет для микротипографии, увы под xelatex мало чего умеет, но под pdflatex хорошо улучшает читаемость
+
+% Тире могут быть невидимы в Adobe Reader
+\ifInvisibleDashes{}
+\MakeDashesBold{}
+\fi
+
 \usepackage{graphicx}   % Пакет для включения рисунков
-\usepackage{lscape}
-\usepackage{booktabs}
 
 % С такими оно полями оно работает по-умолчанию:
-%\RequirePackage[left=20mm,right=10mm,top=20mm,bottom=20mm,headsep=0pt,includefoot]{geometry}
+% \RequirePackage[left=20mm,right=10mm,top=20mm,bottom=20mm,headsep=0pt,includefoot]{geometry}
 % Если вас тошнит от поля в 10мм --- увеличивайте до 20-ти, ну и про переплёт не забывайте:
+\geometry{right=20mm}
+\geometry{left=30mm}
+\geometry{bottom=20mm}
+\geometry{ignorefoot}% считать от нижней границы текста
 
-\linespread{1.3} % полуторный интервал
 
 % Пакет Tikz
-\usepackage{dot2texi}
-%\usepackage{dot2texi}
 \usepackage{tikz}
-\usetikzlibrary{shapes,arrows,positioning,shadows}
+\usetikzlibrary{arrows,positioning,shadows}
 
 % Произвольная нумерация списков.
 \usepackage{enumerate}
@@ -40,7 +52,6 @@ citecolor=black, menucolor=black, filecolor=black,
 
 % itemize внутри tabular
 \usepackage{paralist,array}
-\usepackage{tabularx}
 
 %\setlength{\parskip}{1ex plus0.5ex minus0.5ex} % разрыв между абзацами
 \setlength{\parskip}{1ex} % разрыв между абзацами
@@ -50,82 +61,15 @@ citecolor=black, menucolor=black, filecolor=black,
 %\usepackage[justification=centering]{caption}
 
 \usepackage{newfloat}
-
-\renewcommand{\rmdefault}{ftm} % Times New Roman
-
-
-% Загаловки
-
-\usepackage{titlesec}
- 
-\titleformat{\chapter}[display]
-    {\filcenter}
-    {\MakeUppercase{\chaptertitlename} \thechapter}
-    {8pt}
-    {\bfseries}{}
- 
-\titleformat{\section}
-    {\normalsize\bfseries}
-    {\thesection}
-    {1em}{}
- 
-\titleformat{\subsection}
-    {\normalsize\bfseries}
-    {\thesubsection}
-    {1em}{}
- 
-% Настройка вертикальных и горизонтальных отступов
-\titlespacing*{\chapter}{0pt}{-30pt}{8pt}
-\titlespacing*{\section}{\parindent}{*4}{*4}
-\titlespacing*{\subsection}{\parindent}{*4}{*4}
+\DeclareFloatingEnvironment[
+placement={!ht},
+name=Equation
+]{eqndescNoIndent}
+\edef\fixEqndesc{\noexpand\setlength{\noexpand\parindent}{\the\parindent}\noexpand\setlength{\noexpand\parskip}{\the\parskip}}
+\newenvironment{eqndesc}[1][!ht]{%
+    \begin{eqndescNoIndent}[#1]%
+\fixEqndesc%
+}
+{\end{eqndescNoIndent}}
 
 
-%Поля
-\usepackage{geometry}
-\geometry{left=3cm}
-\geometry{right=1.5cm}
-\geometry{top=2.4cm}
-\geometry{bottom=2.4cm}
-
-%Оглавления
-\usepackage{tocloft}
-\renewcommand{\cfttoctitlefont}{\hspace{0.38\textwidth} \bfseries\MakeUppercase}
-\renewcommand{\cftbeforetoctitleskip}{-1em}
-\renewcommand{\cftaftertoctitle}{\mbox{}\hfill \\ \mbox{}\hfill{\footnotesize Стр.}\vspace{-2.5em}}
-\renewcommand{\cftchapfont}{\normalsize\bfseries \MakeUppercase{\chaptername} }
-\renewcommand{\cftsecfont}{\hspace{31pt}}
-\renewcommand{\cftsubsecfont}{\hspace{11pt}}
-\renewcommand{\cftbeforechapskip}{1em}
-\renewcommand{\cftparskip}{-1mm}
-\renewcommand{\cftdotsep}{1}
-\makeatletter
-    \renewcommand{\@dotsep}{2}
-    \newcommand{\l@likechapter}[2]{{\bfseries\@dottedtocline{0}{0pt}{0pt}{#1}{#2}}}
-\makeatother
-\setcounter{tocdepth}{2} % задать глубину оглавления — до subsection включительно
-
-%Определение своей секции
-
-\newcommand{\empline}{\mbox{}\newline}
-\newcommand{\likechapterheading}[1]{ 
-    \begin{center}
-    \textbf{\MakeUppercase{#1}}
-    \end{center}
-    \empline}
-
-\newcommand{\likechapter}[1]{    
-    \likechapterheading{#1}    
-    \addcontentsline{toc}{likechapter}{#1}}
-
-
-%Работа с картинками
-
-\usepackage[tableposition=top]{caption}
-\usepackage{subcaption}
-\DeclareCaptionLabelFormat{gostfigure}{Рисунок #2}
-\DeclareCaptionLabelFormat{gosttable}{Таблица #2}
-\DeclareCaptionLabelSeparator{gost}{~---~}
-\captionsetup{labelsep=gost}
-\captionsetup[figure]{labelformat=gostfigure}
-\captionsetup[table]{labelformat=gosttable}
-\renewcommand{\thesubfigure}{\asbuk{subfigure}}

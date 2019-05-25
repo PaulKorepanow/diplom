@@ -1,20 +1,18 @@
-\documentclass[14pt,a4paper,russian]{extreport}
-\usepackage[utf8]{inputenc}
-\usepackage[russian]{babel}
+\documentclass[utf8, 14pt, a4paper]{G7-32}% Стиль (по умолчанию будет 14pt)
 \include{preamble.inc}
 \include{listings.inc}
 \include{macros.inc}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% Задать заголовок документа, автора и дату %
-% первый аргумент - заголовок, второй автора, трейти дата%
-\SetTextInfo{Template}{Vlasov}{07.09.2019}
-\SetTextStatus{Готов}
+\usepackage[russian, english]{babel}
+\usepackage{cite}
+\bibliographystyle{utf8gost705u}
 
 \begin{document}
-
-\title{Методы оптимизации и оперативного планирования сборочных производств}
-
-\maketitle
+\makeatletter
+\newcommand{\mylabel}[2]{#2\def\@currentlabel{#2}\label{#1}}
+\makeatother
+\setcounter{tocdepth}{2}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% НАЧАЛО ТЕКСТА
 
 \tableofcontents %Создание оглавления
 \include{21-intro}
@@ -30,7 +28,8 @@
 	% \include{10-examples} % Начинается с новой страницы, так как содержит Главу (Chapter).
 % КОНЕЦ ТЕКСТА
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-\include{81-biblio}
+\backmatter{} %% Здесь заканчивается нумерованная часть документа и начинаются ссылки и
+\bibliography{bibl}{}
+% \include{81-biblio}
 
 \end{document}
