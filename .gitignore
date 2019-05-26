@@ -1,5 +1,4 @@
-*.gz
-*.png
+﻿*.gz
 .vscode/settings.json
 00-main.docx
 Вводная глава.pdf
