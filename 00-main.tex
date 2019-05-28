@@ -15,24 +15,26 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % НАЧАЛО ТЕКСТА
 
-% \tableofcontents %Создание оглавления
+\tableofcontents %Создание оглавления
 \include{21-intro}
 \include{22-arh}
 \include{23-imcore}
 \include{24-albp}
 \include{20-diplom} %Сам диплом
-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % НАЧАЛО ТЕКСТА	
 	% Тут можно начинать писать текст.
 
-\include{10-examples} % Начинается с новой страницы, так как 
-\appendix
-
+% \include{10-examples} % Начинается с новой страницы, так как 
 % КОНЕЦ ТЕКСТА
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \backmatter{} %% Здесь заканчивается нумерованная часть документа и начинаются ссылки и
 \bibliography{bibl}{}
+
+\appendix
+\input{listing.tex}
+
+% \include{listing.tex}
 % \include{81-biblio}
 
 \end{document}
