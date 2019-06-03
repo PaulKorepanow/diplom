@@ -2,7 +2,7 @@
 \renewcommand\thechapter{\CYRA\arabic{chapter}}
 \renewcommand\appendixname{Приложение~А}
 \chapter*{~~Этап подготовки входных данных}\label{chap:a}
-\addcontentsline{toc}{chapter}{\appendixname~~Пример листинга}
+\addcontentsline{toc}{chapter}{\appendixname~~Стадия предобработки}
 \renewcommand{\thefigure}{\CYRA\arabic{figure}}
 
 Листинг~\ref{lst:code} содержит реализацию функции предобработки технологической карты.
@@ -220,5 +220,95 @@
 	return nil
 }
 
+
+\end{lstlisting}
+
+Листинг~\ref{lst:code6} содержит реализацию случайного перебора во время имитационного моделирования.
+\begin{lstlisting}[language=Golang,caption={Случайный перебор},label=lst:code6]
+    func MkExperimentWithRandom(exp Experiment, conf Config) []*ProductionPlan {
+        var Plans []*ProductionPlan
+    
+        experimentChanel := make(chan *ProductionPlan, conf.NumOfExp)
+    
+        for i := 0; i < conf.NumOfExp; i++ {
+            go func() {
+            copyExp := CopyExperimentWithRandom(&exp,int64(i))
+            experimentChanel <- MkExperiment(copyExp)
+            }()
+        
+        }
+        for i := 0; i < conf.NumOfExp; i++ {
+            Plans = append(Plans,<-experimentChanel)
+        }
+        log.Println("Done")
+        file, err := os.Create("test.txt")
+    
+        if err != nil{
+            panic(err)
+        }
+        defer file.Close()
+    
+        value, _ := highScore(Plans)
+        if conf.Score != nil {
+            return scoreSelector(value, *conf.Score, Plans, file)
+        }
+        return Plans
+    }
+\end{lstlisting}
+
+
+
+\renewcommand\appendixname{Приложение~С}
+\chapter*{~~Тестирвоание}\label{chap:c}
+\addcontentsline{toc}{chapter}{\appendixname~~Тестирование}
+
+\begin{lstlisting}[language=Golang,caption={Тестирование случайным перебором в процессе планирования},label=lst:code7]
+    func TestMkExperimentWithRandom(t *testing.T) {
+        exp := imcore.Experiment{
+            Name: "order1",
+            ProductionRoutings: map[imcore.ProductTypeName]imcore.ProductionRouting{
+                "LokomotivA": {
+                    Operations: map[imcore.OperationName]imcore.OperationDesc{
+                        "op1": imcore.NewOperationDbg(9, imcore.BindConfs{"mechan": resource.DemandForStaff{Amount: 4}}),
+                        "op2": imcore.NewOperationDbg(8, imcore.BindConfs{"mechan": resource.DemandForStaff{Amount: 3}}),
+                        "op3": imcore.NewOperationDbg(7, imcore.BindConfs{"mechan": resource.DemandForStaff{Amount: 2}}),
+                        "op4": imcore.NewOperationDbg(6, imcore.BindConfs{"mechan": resource.DemandForStaff{Amount: 1}}),
+                        "op5": imcore.NewOperationDbg(5, imcore.BindConfs{"mechan": resource.DemandForStaff{Amount: 4}}),
+                        "op6": imcore.NewOperationDbg(4, imcore.BindConfs{"mechan": resource.DemandForStaff{Amount: 3}}),
+                        "op7": imcore.NewOperationDbg(3, imcore.BindConfs{"mechan": resource.DemandForStaff{Amount: 2}}),
+                        "op8": imcore.NewOperationDbg(2, imcore.BindConfs{"mechan": resource.DemandForStaff{Amount: 1}}),
+                        "op9": imcore.NewOperationDbg(1, imcore.BindConfs{"mechan": resource.DemandForStaff{Amount: 1}}),
+                    },
+                    Sequence: []imcore.PrevAndNext{{Prev: "op1", Next: "op2"},
+                        {Prev: "op1", Next: "op3"},
+                        {Prev: "op1", Next: "op4"},
+                        {Prev: "op1", Next: "op5"},
+                        {Prev: "op2", Next: "op6"},
+                        {Prev: "op3", Next: "op6"},
+                        {Prev: "op3", Next: "op7"},
+                        {Prev: "op4", Next: "op7"},
+                        {Prev: "op4", Next: "op8"},
+                        {Prev: "op5", Next: "op8"},
+                        {Prev: "op6", Next: "op9"},
+                        {Prev: "op7", Next: "op9"},
+                        {Prev: "op8", Next: "op9"},
+                    },
+                },
+            },
+            OrderItems: []imcore.OrderItem{
+                {ProductType: "LokomotivA", NumberOfProducts: 30},
+            },
+            Resources: map[imcore.ResourceName]imcore.Resource{
+                "mechan": &resource.Staff{Total: 4},
+                "DEBUG":  imcore.DebugResource{},
+            },
+            EventSelector: imcore.SimpleEventSelector,
+        }
+    
+        i := 1
+        p := &i
+        plans := imcore.MkExperimentWithRandom(exp, imcore.Config{NumOfExp: 150, Score: p})
+        fmt.Println(plans)
+    }
 
 \end{lstlisting}
